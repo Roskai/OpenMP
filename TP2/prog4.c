@@ -4,7 +4,7 @@
 #include <time.h>
 #include <math.h>
 
-#define VALINIT 100000000
+#define VALINIT 1000000000
 #define NBTOURS 300
 #define NUM_THREAD 4
 #define NB_TEST 5
@@ -29,9 +29,9 @@ int main(void)
     start = omp_get_wtime();
     for (i = VALINIT; i < VALINIT + NBTOURS; i++)
     {
-        div = 0;
         j = 2;
-        while (j % i != 0 && div == 0)
+        div = 0;
+        while (i % j != 0 && div == 0)
         {
             j++;
             if (j >= i)
@@ -45,7 +45,7 @@ int main(void)
     tmpSeq = (end - start);
     printf("temps d'execution séquentiel : %lg \n", tmpSeq);
     printf("%d nombres premiers de trouvés \n", nombreNombrePremierTrouverSeq);
-    /*
+
     printf(" =========================================\n");
     printf(" +                Parralelle             +\n");
     printf(" =========================================\n");
@@ -57,15 +57,16 @@ int main(void)
 #pragma omp parallel for num_threads(nbThreadTest[nbThreads]), private(div, i, j)
         for (i = VALINIT; i < VALINIT + NBTOURS; i++)
         {
-            div = 1;
-            for (j = 2; j < i; j++)
-            {                   // de 2 à i exclu
-                if (i % j == 0) // si j divise i
-                    div = 0;
-            }
-            if (div)
+            j = 2;
+            div = 0;
+            while (i % j != 0 && div == 0)
             {
-                nombreNombrePremierTrouverPar++;
+                j++;
+                if (j >= i)
+                {
+                    div = 1;
+                    nombreNombrePremierTrouverPar++;
+                }
             }
         }
         if (nombreNombrePremierTrouverPar != nombreNombrePremierTrouverSeq)
@@ -75,13 +76,13 @@ int main(void)
         }
         end = omp_get_wtime();
         tmpPar = (end - start);
-        printf("temps d'execution parrallel pour %d threads: %lg \n", nbThreadTest[nbThreads], tmpPar);
+        printf(" temps d'execution parrallel pour %d threads: %lg \n", nbThreadTest[nbThreads], tmpPar);
         acceleration = tmpSeq / tmpPar;
-        printf("acceleration pour %d threads = %lg\n", nbThreadTest[nbThreads], acceleration);
+        printf(" acceleration pour %d threads = %lg\n", nbThreadTest[nbThreads], acceleration);
         efficacite = acceleration / nbThreadTest[nbThreads];
-        printf("efficacite pour %d threads = %lg\n", nbThreadTest[nbThreads], efficacite);
+        printf(" efficacite pour %d threads = %lg\n", nbThreadTest[nbThreads], efficacite);
         printf("=========================================\n");
     }
-    */
+
     return 0;
 }
