@@ -1,0 +1,23 @@
+ =========================================
+ +                Séquentiel             +
+ =========================================
+res : -1.69585 
+temps d'execution séquentiel : 1.47674 
+ =========================================
+ +                Parralelle             +
+ =========================================
+res : -4.46918 
+ temps d'execution parrallel pour 2 threads: 1.15519 
+ acceleration pour 2 threads = 1.27836
+ efficacite pour 2 threads = 0.639178
+=========================================
+res : 8.25479 
+ temps d'execution parrallel pour 3 threads: 1.16078 
+ acceleration pour 3 threads = 1.2722
+ efficacite pour 3 threads = 0.424066
+=========================================
+res : -16.7429 
+ temps d'execution parrallel pour 4 threads: 1.18348 
+ acceleration pour 4 threads = 1.24779
+ efficacite pour 4 threads = 0.311948
+=========================================

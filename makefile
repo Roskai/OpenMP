@@ -8,16 +8,22 @@ clean:
 	rm -vf *.o
 
 prog1: 
-	$(CC) $(CFLAGS) $(PWD)/TP1/$@.c -o $@.out 
+	$(CC) $(PWD)/TP1/$@.c -o $@.out $(CFLAGS) 
 
 prog2: 
-	$(CC) $(CFLAGS)  $(PWD)/TP1/$@.c -o $@.out 
+	$(CC) $(PWD)/TP1/$@.c -o $@.out $(CFLAGS) 
 
 prog3: 
-	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 
+	$(CC) $(PWD)/TP2/$@.c -o $@.out $(CFLAGS) 
 
 prog4: 
-	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 
+	$(CC) $(PWD)/TP2/$@.c -o $@.out $(CFLAGS) 
 
 prog5: 
-	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 
+	$(CC) $(PWD)/TP2/$@.c -o $@.out $(CFLAGS) 
+
+prog6: 
+	$(CC) $(PWD)/TP3/$@.c -o $@.out $(CFLAGS)
+
+prog7: 
+	$(CC) $(PWD)/TP3/$@.c -o $@.out $(CFLAGS)
