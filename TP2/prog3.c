@@ -52,7 +52,7 @@ int main(void)
         printf("  Avec %d threads:\n", nbThreadTest[nbThreads]);
         unsigned int nombreNombrePremierTrouverPar = 0;
         start = omp_get_wtime();
-#pragma omp parallel for num_threads(nbThreadTest[nbThreads]), private(div, i, j)
+#pragma omp parallel for num_threads(nbThreadTest[nbThreads]), private(div, i, j), schedule(dynamic)
         for (i = VALINIT; i < VALINIT + NBTOURS; i++)
         {
             div = 1;
@@ -71,13 +71,13 @@ int main(void)
             fprintf(stderr, "Nombre de nombre premier invalide : %d trouvé, pour %d attendu", nombreNombrePremierTrouverPar, nombreNombrePremierTrouverSeq);
             exit(EXIT_FAILURE);
         }
-        end = omp_get_wtime();
+                end = omp_get_wtime();
         tmpPar = (end - start);
-        printf("  temps d'execution parrallel : %lg \n", nbThreadTest[nbThreads], tmpPar);
+        printf(" temps d'execution parrallel pour %d threads: %lg \n", nbThreadTest[nbThreads], tmpPar);
         acceleration = tmpSeq / tmpPar;
-        printf("  acceleration = %lg\n", nbThreadTest[nbThreads], acceleration);
+        printf(" acceleration pour %d threads = %lg\n", nbThreadTest[nbThreads], acceleration);
         efficacite = acceleration / nbThreadTest[nbThreads];
-        printf("  efficacite = %lg\n", nbThreadTest[nbThreads], efficacite);
+        printf(" efficacite pour %d threads = %lg\n", nbThreadTest[nbThreads], efficacite);
         printf("=========================================\n");
     }
 

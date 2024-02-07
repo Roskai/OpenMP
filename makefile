@@ -10,11 +10,14 @@ clean:
 prog1: 
 	$(CC) $(CFLAGS) $(PWD)/TP1/$@.c -o $@.out 
 
-prog2: prog2.c
+prog2: 
 	$(CC) $(CFLAGS)  $(PWD)/TP1/$@.c -o $@.out 
 
 prog3: 
 	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 
 
 prog4: 
+	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 
+
+prog5: 
 	$(CC) $(CFLAGS) $(PWD)/TP2/$@.c -o $@.out 

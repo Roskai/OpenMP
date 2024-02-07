@@ -1,0 +1,34 @@
+20 coeurs disponibles
+ =========================================
+ +                Séquentiel             +
+ =========================================
+temps d'execution séquentiel : 64.2813 
+17 nombres premiers de trouvés 
+ =========================================
+ +                Parralelle             +
+ =========================================
+  Avec 2 threads:
+ temps d'execution parrallel pour 2 threads: 32.67 
+ acceleration pour 2 threads = 1.96759
+ efficacite pour 2 threads = 0.983796
+=========================================
+  Avec 3 threads:
+ temps d'execution parrallel pour 3 threads: 21.9239 
+ acceleration pour 3 threads = 2.93201
+ efficacite pour 3 threads = 0.977338
+=========================================
+  Avec 4 threads:
+ temps d'execution parrallel pour 4 threads: 16.6598 
+ acceleration pour 4 threads = 3.85846
+ efficacite pour 4 threads = 0.964615
+=========================================
+  Avec 20 threads:
+ temps d'execution parrallel pour 20 threads: 5.37639 
+ acceleration pour 20 threads = 11.9562
+ efficacite pour 20 threads = 0.597811
+=========================================
+  Avec 40 threads:
+ temps d'execution parrallel pour 40 threads: 5.44824 
+ acceleration pour 40 threads = 11.7985
+ efficacite pour 40 threads = 0.294963
+=========================================
