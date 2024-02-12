@@ -1,4 +1,3 @@
-BDIR =$(PWD)
 CC = gcc 
 CFLAGS = -Wall -fopenmp -lm 
 
@@ -27,3 +26,12 @@ prog6:
 
 prog7: 
 	$(CC) $(PWD)/TP3/$@.c -o $@.out $(CFLAGS)
+
+prog8: 
+	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
+
+prog8V1: 
+	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
+
+prog8V2: 
+	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
