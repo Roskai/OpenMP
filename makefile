@@ -6,6 +6,9 @@ clean:
 	rm -vf *.out 
 	rm -vf *.o
 
+##############
+# TP OPEN-MP #
+##############
 prog1: 
 	$(CC) $(PWD)/TP1/$@.c -o $@.out $(CFLAGS) 
 
@@ -35,3 +38,12 @@ prog8V1:
 
 prog8V2: 
 	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
+
+TP1-1:
+	$(CC) $(PWD)/Archi-Parallèle/$@.c -o $@.out $(CFLAGS)
+
+TP1-2:
+	$(CC) $(PWD)/Archi-Parallèle/$@.c -o $@.out $(CFLAGS)
+
+TP1-3:
+	$(CC) $(PWD)/Archi-Parallèle/$@.c -o $@.out $(CFLAGS)
