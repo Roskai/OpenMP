@@ -32,13 +32,6 @@ prog7:
 
 prog8: 
 	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
-
-prog8V1: 
-	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
-
-prog8V2: 
-	$(CC) $(PWD)/TP4/$@.c -o $@.out $(CFLAGS)
-
 TP1-1:
 	$(CC) $(PWD)/Archi-Parallèle/$@.c -o $@.out $(CFLAGS)
 
