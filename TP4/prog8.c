@@ -6,12 +6,35 @@
 
 #define PAS 200
 #define NBELEM 2000
-				//h1| h2 | h3
-#define ITA 8 	//8 | 8  | 2
-#define ITB 4 	//8 | 4  | 5
-#define ITC 3 	//7 | 3  | 4
-#define ITD 7	//2 | 7  | 7
-#define ITE 1 	//1 | 1  | 1
+
+// Si HYPOTHESE n'est pas défini lors de la compilation, utilisation de l'Hypothèse 1 par défaut
+#ifndef HYPOTHESE
+#define HYPOTHESE 1
+#warning "Aucune valeur pour HYPOTHESE fournie, utilisation de la valeur par défaut 1"
+#endif
+
+// Définir les valeurs IT en fonction de l'hypothèse choisie
+#if HYPOTHESE == 1
+#define ITA 8
+#define ITB 8
+#define ITC 7
+#define ITD 2
+#define ITE 1
+#elif HYPOTHESE == 2
+#define ITA 8
+#define ITB 4
+#define ITC 3
+#define ITD 7
+#define ITE 1
+#elif HYPOTHESE == 3
+#define ITA 2
+#define ITB 5
+#define ITC 4
+#define ITD 7
+#define ITE 1
+#else
+#error "Valeur invalide pour HYPOTHESE, veuillez choisir entre 1, 2 ou 3"
+#endif
 
 int M1[NBELEM][NBELEM], M2[NBELEM][NBELEM], M3[NBELEM][NBELEM], M4[NBELEM][NBELEM], M5[NBELEM][NBELEM], M6[NBELEM][NBELEM];
 
@@ -47,9 +70,9 @@ int main(void)
 {
 	int ncores;
 	int i, j, k;
-	long long res;
+	long long resGOLD, res;
 	double start, end, tempsSeq, tempsv1, tempsV2, tempsV3;
-	double accelerationV1, accelerationV2, accelerationV3; 
+	double accelerationV1, accelerationV2, accelerationV3;
 	double efficaciteV1, efficaciteV2, efficaciteV3;
 	ncores = omp_get_num_procs();
 	printf("%d coeurs disponibles\n", ncores);
@@ -135,8 +158,15 @@ int main(void)
 	}
 
 	end = omp_get_wtime();
-
+	resGOLD = 0;
 	tempsSeq = (end - start);
+	for (i = 0; i < NBELEM; i++)
+	{
+		for (j = 0; j < NBELEM; j++)
+		{
+			resGOLD = resGOLD + E[i][j];
+		}
+	}
 	printf("temps en sequentiel : %g \n", tempsSeq);
 
 	printf("*******************************************\n");
@@ -219,6 +249,19 @@ int main(void)
 	}
 
 	end = omp_get_wtime();
+	res = 0;
+	for (i = 0; i < NBELEM; i++)
+	{
+		for (j = 0; j < NBELEM; j++)
+		{
+			res = res + E[i][j];
+		}
+	}
+	if (res != resGOLD)
+	{
+		perror("V1 : le resultat obtenu lors des traitement de la version diffère de la valeur trouvé en séquentiel.");
+		exit(EXIT_FAILURE);
+	}
 
 	tempsv1 = (end - start);
 	printf("temps pour la version 1 : %g \n", tempsv1);
@@ -303,7 +346,19 @@ for (i = 0; i < PAS * ITE; i++)
 }
 
 end = omp_get_wtime();
-
+res = 0;
+for (i = 0; i < NBELEM; i++)
+{
+	for (j = 0; j < NBELEM; j++)
+	{
+		res = res + E[i][j];
+	}
+}
+if (res != resGOLD)
+{
+	perror("V2 : le resultat obtenu lors des traitement de la version diffère de la valeur trouvé en séquentiel.");
+	exit(EXIT_FAILURE);
+}
 tempsV2 = (end - start);
 printf("temps pour la version 2 : %g \n", tempsV2);
 
@@ -384,7 +439,7 @@ end = omp_get_wtime();
 tempsV3 = (end - start);
 printf("temps pour la version 3 : %g \n", tempsV3);
 
-// pour que les résultats soient utilisés
+res = 0;
 for (i = 0; i < NBELEM; i++)
 {
 	for (j = 0; j < NBELEM; j++)
@@ -392,23 +447,28 @@ for (i = 0; i < NBELEM; i++)
 		res = res + E[i][j];
 	}
 }
-//acceleration = tmpSeq / tmpPar;
-//efficacite = acceleration / nbThreadTest[nbThreads];
-accelerationV1 = tempsSeq/tempsv1;
+if (res != resGOLD)
+{
+	perror("V3 : le resultat obtenu lors des traitement de la version diffère de la valeur trouvé en séquentiel.");
+	exit(EXIT_FAILURE);
+}
+// acceleration = tmpSeq / tmpPar;
+// efficacite = acceleration / nbThreadTest[nbThreads];
+accelerationV1 = tempsSeq / tempsv1;
 efficaciteV1 = accelerationV1 / ncores;
 
-accelerationV2 = tempsSeq/tempsV2;
-efficaciteV2 = accelerationV2/ncores;
+accelerationV2 = tempsSeq / tempsV2;
+efficaciteV2 = accelerationV2 / ncores;
 
-accelerationV3 = tempsSeq/tempsV3;
-efficaciteV3 = accelerationV3/3;
+accelerationV3 = tempsSeq / tempsV3;
+efficaciteV3 = accelerationV3 / 3;
 
 printf("===========================================\n");
-printf("accelerationV1 = %g | efficacité V1 = %g \n",accelerationV1,efficaciteV1);
-printf("accelerationV2 = %g | efficacité V2 = %g \n",accelerationV2,efficaciteV2);
-printf("accelerationV3 = %g | efficacité V3 = %g (pour 3 threads)\n",accelerationV3,efficaciteV3);
+printf("accelerationV1 = %g | efficacité V1 = %g \n", accelerationV1, efficaciteV1);
+printf("accelerationV2 = %g | efficacité V2 = %g \n", accelerationV2, efficaciteV2);
+printf("accelerationV3 = %g | efficacité V3 = %g (pour 3 threads)\n", accelerationV3, efficaciteV3);
 
-printf("resultat version 3: %I64lld \n", res);
+printf("resultat : %I64lld \n", res);
 
 return 0;
 }
