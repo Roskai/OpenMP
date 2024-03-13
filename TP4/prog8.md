@@ -9,6 +9,8 @@
 		- [Version parallèle V2](#version-parallèle-v2)
 		- [Version parallèle V3](#version-parallèle-v3)
 	- [ Calcul Experimentaux](#calcul-experimentaux)
+		- [Comment compiler le programme](#comment-compiler-le-programme)
+		- [Valeurs experimentales](#valeurs-experimentales)
 
 ## Rapel des valeurs
 
@@ -41,8 +43,9 @@ Pour l'hypothèse 3 nous aurons un temps de 323 tours de boucle.
 ### Version parallèle V1
 
 ![A B C se font en paralèlle](GrapheDependanceV1.png)
- Dans cette version, les calculs de A, B et C sont parallèlisés. Le calcul de temps sera de `MAX((PAS * ITA)^3  ;(PAS * ITB)^3 ; (PAS * ITC)^3 )+ (PAS * ITD)^3 + (PAS * ITE)^3`. 
- 
+
+ Dans cette version, les calculs de A, B et C sont parallèlisés. Le calcul de temps sera de `MAX((PAS * ITA)^3  ;(PAS * ITB)^3 ; (PAS * ITC)^3 )+ (PAS * ITD)^3 + (PAS * ITE)^3`.
+
  Pour l'hypothèse 1 : un temps de 521 tours de boucle. L'accélération est de 2,641 et l'efficacité de 0,88 (accélération/3)
 
  Pour l'hypothèse 2 : un temps de 856 tours de boucle. L'accélération est de 1,106 et l'efficacité de 0,37 (accélération/3).
@@ -75,3 +78,39 @@ Pour l'hypothèse 3 : un temps de 251 tours de boucle. L'accélération est de 1
 
 ##  Calcul Experimentaux
 
+### Comment compiler le programme
+
+```sh
+ gcc -Wall -fopenmp -lm  -DHYPOTHESE=3 -DPAS=200 prog8.c -o prog8.out
+```
+
+Il est important de faire passer la valeur de l'hypothèse avec `DHYPOTHESE` pour selectionner l'hypothèse a utiliser. Ce paramètre est important sinon un warning est levé.
+Le paramètre optionnel `DPAS` permet de modifier le nombre de pas.  
+
+### Valeurs experimentales
+
+Dans les calculs qui suivent  nous avons utiliser un pas à 200 sur une machine de l'université (Salle micro 1.1B).
+
+Voici les resultats pour la version parralèle 1, avec 8 cœurs de disponibles :
+
+```text
+acceleration Hypothèse 1 = 2.43252 | efficacité Hypothèse 1 = 0.304065 
+acceleration Hypothèse 2 = 1.06735 | efficacité Hypothèse 2 = 0.133419 
+acceleration Hypothèse 3 = 1.05934 | efficacité Hypothèse 3 = 0.132417 
+```
+
+Voici les resultats pour la version parralèle  2 :
+
+```text
+acceleration Hypothèse 1 = 1.09127 | efficacité Hypothèse 1 = 0.136408 
+acceleration Hypothèse 2 = 1.55375 | efficacité Hypothèse 2 = 0.194219 
+acceleration Hypothèse 3 = 1.06423 | efficacité Hypothèse 3 = 0.133029 
+```
+
+Voici les resultats pour la version parralèle 3 :
+
+```text
+accelerationHypothèse 1 = 2.4577 | efficacité Hypothèse 1 = 0.819256 
+accelerationHypothèse 3 = 1.0824 | efficacité Hypothèse 3 = 0.360818 
+accelerationHypothèse 3 = 1.0384 | efficacité Hypothèse 3 = 0.346132 
+```

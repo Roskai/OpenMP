@@ -4,3 +4,4 @@
 /nombre_premier_version_sequentiel
 *.out
 *.o
+.clang-format
